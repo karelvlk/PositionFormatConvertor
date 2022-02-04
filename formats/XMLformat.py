@@ -1,5 +1,5 @@
 
-from BaseFormat import BaseFormat
+from formats.BaseFormat import BaseFormat
 
 class XMLformat(BaseFormat):
     def __init__(self, data):
@@ -12,10 +12,10 @@ class XMLformat(BaseFormat):
 
     def generateStart(self):
         self.startLines.append('<?xml version="1.0" encoding="UTF-8"?>')
-        self.startLines.append('<file>')
+        self.startLines.append('<points>')
 
     def generateEnd(self):
-        self.endLines.append('</file>')
+        self.endLines.append('</points>')
 
     def convertLines(self):
         if self.skipHeader == 'A':
@@ -27,7 +27,7 @@ class XMLformat(BaseFormat):
             line = self.lines[i]
 
             line = line.replace('\n', '').split(self.delimiter)
-            self.convertedLines.append(f'<point{i}>')
+            self.convertedLines.append(f'<point>')
             self.convertedLines.append('<coords>')
             self.convertedLines.append(f'<x>{line[2]}</x>')
             self.convertedLines.append(f'<y>{line[3]}</y>')
@@ -40,4 +40,4 @@ class XMLformat(BaseFormat):
             self.convertedLines.append(f'<phi>{line[6]}</phi>')
             self.convertedLines.append(f'<kappa>{line[7]}</kappa>')
             self.convertedLines.append('</properties>')
-            self.convertedLines.append(f'</point{i}>')
+            self.convertedLines.append(f'</point>')

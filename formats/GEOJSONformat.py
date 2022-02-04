@@ -1,5 +1,5 @@
 
-from BaseFormat import BaseFormat
+from formats.BaseFormat import BaseFormat
 
 class GEOJSONformat(BaseFormat):
     def __init__(self, data):

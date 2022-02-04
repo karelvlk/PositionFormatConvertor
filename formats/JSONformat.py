@@ -1,5 +1,5 @@
 
-from BaseFormat import BaseFormat
+from formats.BaseFormat import BaseFormat
 
 class JSONformat(BaseFormat):
     def __init__(self, data):
@@ -12,8 +12,10 @@ class JSONformat(BaseFormat):
 
     def generateStart(self):
         self.startLines.append('{')
+        self.startLines.append('"points": [')
 
     def generateEnd(self):
+        self.endLines.append(']')
         self.endLines.append('}')
 
     def convertLines(self):
@@ -25,7 +27,7 @@ class JSONformat(BaseFormat):
         for i in range (j, len(self.lines)):
             line = self.lines[i]
             line = line.replace('\n', '').split(self.delimiter)
-            self.convertedLines.append(f'\"point{i}\": {{')
+            self.convertedLines.append('{')
             self.convertedLines.append('\"coords\": {')
             self.convertedLines.append(f'\"x\": {line[2]},')
             self.convertedLines.append(f'\"y\": {line[3]},')

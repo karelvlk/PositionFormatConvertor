@@ -1,5 +1,5 @@
 
-from BaseFormat import BaseFormat
+from formats.BaseFormat import BaseFormat
 
 class YAMLformat(BaseFormat):
     def __init__(self, data):
@@ -12,6 +12,7 @@ class YAMLformat(BaseFormat):
 
     def generateStart(self):
         self.startLines.append('---')
+        self.convertedLines.append('points:')
 
     def convertLines(self):
         if self.skipHeader == 'A':
@@ -22,12 +23,12 @@ class YAMLformat(BaseFormat):
         for i in range (j, len(self.lines)):
             line = self.lines[i]
             line = line.replace('\n', '').split(self.delimiter)
-            self.convertedLines.append(f'point{i}:')
+
             self.convertedLines.append('    - coords:')
             self.convertedLines.append(f'       x: {line[2]}')
             self.convertedLines.append(f'       y: {line[3]}')
             self.convertedLines.append(f'       z: {line[4]}')
-            self.convertedLines.append('    - properties:')
+            self.convertedLines.append('      properties:')
             self.convertedLines.append(f'       name: {line[0]}')
             self.convertedLines.append(f'       dummy: {line[1]}')
             self.convertedLines.append(f'       omega: {line[5]}')

@@ -1,12 +1,12 @@
 
 import os
 import sys
-sys.path.append('formats')
+import argparse
 
-from JSONformat import JSONformat
-from XMLformat import XMLformat
-from YAMLformat import YAMLformat
-from GEOJSONformat import GEOJSONformat
+from formats.JSONformat import JSONformat
+from formats.XMLformat import XMLformat
+from formats.YAMLformat import YAMLformat
+from formats.GEOJSONformat import GEOJSONformat
 
 def checkDataValues(outputFormats, inputFilePath, outputFilePath, outputFormat, delimiter, skipheader):
     if not os.path.exists(inputFilePath):
@@ -32,7 +32,7 @@ def checkDataValues(outputFormats, inputFilePath, outputFilePath, outputFormat, 
 def checkInputData(outputFormats, inputFilePath, outputFilePath, outputFormat, delimiter, skipheader):
     if not inputFilePath or not outputFilePath or not outputFormat:
         print('+-------------------------------+')
-        print('|  Vítejte v konvertoru pozic   |')
+        print('| Vítejte v konvertoru formátů  |')
         print('+-------------------------------+')
         if not inputFilePath:
             inputFilePath = input('Zadej cestu k vstupnímu souboru: ')
@@ -69,12 +69,22 @@ def processData(data):
     print('| Konvertovaný soubor je uložen |')
     print('+-------------------------------+')
 
-def convertToFormat(inputFilePath=None, outputFilePath=None, outputFormat=None, delimiter=' ', skipheader='N'):
+def initArgs():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--input')
+    parser.add_argument('-o', '--output')
+    parser.add_argument('-f', '--format')
+    parser.add_argument('-d', '--delimiter')
+    parser.add_argument('-s', '--skipheader')
+    return parser.parse_args()
+
+def convertToFormat(inputFilePath, outputFilePath, outputFormat, delimiter, skipheader):
     outputFormats = ['GEOJSON', 'JSON', 'XML', 'YAML']
     data = checkInputData(outputFormats, inputFilePath, outputFilePath, outputFormat, delimiter, skipheader)
 
     if data:
         processData(data)
 
+args = initArgs()
+convertToFormat(args.input, args.output, args.format, args.delimiter, args.skipheader)
 
-convertToFormat()
