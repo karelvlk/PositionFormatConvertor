@@ -20,17 +20,28 @@ class YAMLformat(BaseFormat):
         else:
             j = 0
 
+        converted = 0
         for i in range (j, len(self.lines)):
             line = self.lines[i]
             line = line.replace('\n', '').split(self.delimiter)
+            if len(line) == 8:
+                converted += 1
+                self.convertedLines.append('    - coords:')
+                self.convertedLines.append(f'       x: {line[2]}')
+                self.convertedLines.append(f'       y: {line[3]}')
+                self.convertedLines.append(f'       z: {line[4]}')
+                self.convertedLines.append('      properties:')
+                self.convertedLines.append(f'       name: {line[0]}')
+                self.convertedLines.append(f'       dummy: {line[1]}')
+                self.convertedLines.append(f'       omega: {line[5]}')
+                self.convertedLines.append(f'       phi: {line[6]}')
+                self.convertedLines.append(f'       kappa: {line[7]}')
 
-            self.convertedLines.append('    - coords:')
-            self.convertedLines.append(f'       x: {line[2]}')
-            self.convertedLines.append(f'       y: {line[3]}')
-            self.convertedLines.append(f'       z: {line[4]}')
-            self.convertedLines.append('      properties:')
-            self.convertedLines.append(f'       name: {line[0]}')
-            self.convertedLines.append(f'       dummy: {line[1]}')
-            self.convertedLines.append(f'       omega: {line[5]}')
-            self.convertedLines.append(f'       phi: {line[6]}')
-            self.convertedLines.append(f'       kappa: {line[7]}')
+        n = len(str(converted)) + len(str(len(self.lines)))
+        s = ''
+        for i in range(0, n):
+            s += '-'
+
+        print(f'+--------------------------------{s}+')
+        print(f'| Úspěšně konvertováno {converted} / {len(self.lines)-j} řádků |')
+        return n

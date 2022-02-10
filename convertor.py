@@ -62,12 +62,22 @@ def processData(data):
     formatFile.generateStart()
     formatFile.generateEnd()
     formatFile.readLines()
-    formatFile.convertLines()
+    n = formatFile.convertLines()
     formatFile.writeConverterData()
 
-    print('+-------------------------------+')
-    print('| Konvertovaný soubor je uložen |')
-    print('+-------------------------------+')
+    s = ''
+    m1 = ''
+    m2 = ''
+    for i in range (0, n+1):
+        s += '-'
+        if i % 2 == 0:
+            m1 += ' '
+        else:
+            m2 += ' '
+
+    print(f'+-------------------------------{s}+')
+    print(f'|{m2} Konvertovaný soubor je uložen {m1}|')
+    print(f'+-------------------------------{s}+')
 
 def initArgs():
     parser = argparse.ArgumentParser()
